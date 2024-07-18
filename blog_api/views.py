@@ -91,15 +91,20 @@ from django_filters.rest_framework import DjangoFilterBackend
 #     def delete(self, request, *args, **kwargs):
 #         return self.destroy(request, *args, **kwargs)
 
+
 # готовые классы представаления
 class PostList(generics.ListCreateAPIView):
     permission_classes = (IsAuthorOrReadOnly,)
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['author']
-    search_fields = ['body','author__username']
-    ordering_fields = ['author_id', 'publish']
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ["author"]
+    search_fields = ["body", "author__username"]
+    ordering_fields = ["author_id", "publish"]
 
     # def get_queryset(self):
     #     user = self.request.user
@@ -112,10 +117,9 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
-
 class UserPostList(generics.ListAPIView):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        user = self.kwargs['id']
+        user = self.kwargs["id"]
         return Post.objects.filter(author=user)

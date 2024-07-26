@@ -29,8 +29,11 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["blog-floliq.online"]
-CSRF_TRUSTED_ORIGINS = ["http://blog-floliq.online", "https://blog-floliq.online"]
+if str(os.getenv('IS_PROD')) == 'True':
+    ALLOWED_HOSTS = ["blog-floliq.online"]
+    CSRF_TRUSTED_ORIGINS = ["http://blog-floliq.online", "https://blog-floliq.online"]
+else:
+    ALLOWED_HOSTS = []
 
 SITE_ID = 1
 
@@ -119,9 +122,9 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "blog",
-        "USER": "blog",
-        "PASSWORD": "testpass123",
+        "NAME": str(os.getenv('POSTGRES_NAME')),
+        "USER": str(os.getenv('POSTGRES_USER')),
+        "PASSWORD": str(os.getenv('POSTGRES_PASSWORD')),
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
@@ -162,7 +165,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static"
+STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type

@@ -40,7 +40,7 @@ class SignUpView(generic.CreateView):
     def dispatch(self, request, *args, **kwargs):
         # перенаправит на домашнюю страницу, если пользователь попытается получить доступ к странице регистрации после авторизации
         if request.user.is_authenticated:
-            return redirect(to="/blog")
+            return redirect(to="/")
 
         return super(SignUpView, self).dispatch(request, *args, **kwargs)
 
@@ -54,7 +54,7 @@ class SignUpView(generic.CreateView):
             form.save()
             username = form.cleaned_data.get("username")
             messages.success(request, f"Account created for {username}")
-            return redirect(to="/login")
+            return redirect(to="/accounts/login")
         return render(request, self.template_name, {"form": form})
 
 

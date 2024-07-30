@@ -1,15 +1,18 @@
-from django.urls import path, re_path
-from .views import PostList, PostDetail, UserPostList
+from django.urls import path, re_path, include
+from .views import UserPostList, PostViewSet
 from drf_spectacular.views import SpectacularAPIView
+from rest_framework import routers
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
 
+router = routers.DefaultRouter()
+router.register(r'posts', PostViewSet)
+
 urlpatterns = [
-    path("<int:pk>/", PostDetail.as_view(), name="post_detail"),
-    path("", PostList.as_view(), name="post_list"),
+    path('', include(router.urls)),
     re_path("^user/(?P<id>.+)/$", UserPostList.as_view()),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

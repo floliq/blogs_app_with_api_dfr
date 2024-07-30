@@ -1,7 +1,7 @@
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, mixins, generics, filters, permissions
+from rest_framework import status, mixins, generics, filters, permissions, viewsets
 from blog.models import Post
 from .serializers import PostSerializer
 from .permissions import IsAuthorOrReadOnly
@@ -93,7 +93,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 
 # готовые классы представаления
-class PostList(generics.ListCreateAPIView):
+
+class PostViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthorOrReadOnly,)
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -106,15 +107,28 @@ class PostList(generics.ListCreateAPIView):
     search_fields = ["body", "author__username"]
     ordering_fields = ["author_id", "publish"]
 
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     return Post.objects.filter(author=user)
-
-
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthorOrReadOnly,)
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+# class PostList(generics.ListCreateAPIView):
+#     permission_classes = (IsAuthorOrReadOnly,)
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
+#     filter_backends = [
+#         DjangoFilterBackend,
+#         filters.SearchFilter,
+#         filters.OrderingFilter,
+#     ]
+#     filterset_fields = ["author"]
+#     search_fields = ["body", "author__username"]
+#     ordering_fields = ["author_id", "publish"]
+#
+#     # def get_queryset(self):
+#     #     user = self.request.user
+#     #     return Post.objects.filter(author=user)
+#
+#
+# class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+#     permission_classes = (IsAuthorOrReadOnly,)
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
 
 
 class UserPostList(generics.ListAPIView):

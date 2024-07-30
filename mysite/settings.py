@@ -26,13 +26,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+if str(os.getenv('IS_PROD')) == 'True':
+    DEBUG = False
+    ALLOWED_HOSTS = [str(os.getenv('DOMAIN_NAME'))]
+    CSRF_TRUSTED_ORIGINS = ["http://" + str(os.getenv('DOMAIN_NAME')), "https://" + str(os.getenv('DOMAIN_NAME'))]
+else:
+    DEBUG = True
+    ALLOWED_HOSTS = []
 
 SITE_ID = 1
-
 
 # Application definition
 
@@ -119,9 +121,9 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "blog",
-        "USER": "blog",
-        "PASSWORD": "1234",
+        "NAME": str(os.getenv('POSTGRES_NAME')),
+        "USER": str(os.getenv('POSTGRES_USER')),
+        "PASSWORD": str(os.getenv('POSTGRES_PASSWORD')),
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
@@ -163,6 +165,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -172,10 +175,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "enboikovlad@gmail.com"
-EMAIL_HOST_PASSWORD = "erha jyij lzma qyfg"
-EMAIL_PORT = 587
+EMAIL_HOST = str(os.getenv("EMAIL_HOST"))
+EMAIL_HOST_USER = str(os.getenv("EMAIL_HOST_USER"))
+EMAIL_HOST_PASSWORD = str(os.getenv("EMAIL_HOST_PASSWORD"))
+EMAIL_PORT = int(os.getenv("EMAIL_PORT"))
 EMAIL_USE_TLS = True
 
 LOGIN_REDIRECT_URL = "/"

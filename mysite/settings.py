@@ -126,6 +126,9 @@ DATABASES = {
         "PASSWORD": str(os.getenv('POSTGRES_PASSWORD')),
         "HOST": "127.0.0.1",
         "PORT": "5432",
+        'TEST': {
+            'NAME': 'test_blog',
+        },
     }
 }
 

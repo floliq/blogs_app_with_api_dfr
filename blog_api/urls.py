@@ -9,10 +9,10 @@ from drf_spectacular.views import (
 )
 
 router = routers.DefaultRouter()
-router.register(r'posts', PostViewSet)
+router.register(r"posts", PostViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path("", include(router.urls)),
     re_path("^user/(?P<id>.+)/$", UserPostList.as_view()),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

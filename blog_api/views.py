@@ -94,6 +94,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # готовые классы представаления
 
+
 class PostViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthorOrReadOnly,)
     queryset = Post.objects.all()
@@ -106,6 +107,7 @@ class PostViewSet(viewsets.ModelViewSet):
     filterset_fields = ["author"]
     search_fields = ["body", "author__username"]
     ordering_fields = ["author_id", "publish"]
+
 
 # class PostList(generics.ListCreateAPIView):
 #     permission_classes = (IsAuthorOrReadOnly,)

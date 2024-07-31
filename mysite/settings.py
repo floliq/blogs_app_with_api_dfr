@@ -26,10 +26,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
-if str(os.getenv('IS_PROD')) == 'True':
+if str(os.getenv("IS_PROD")) == "True":
     DEBUG = False
-    ALLOWED_HOSTS = [str(os.getenv('DOMAIN_NAME'))]
-    CSRF_TRUSTED_ORIGINS = ["http://" + str(os.getenv('DOMAIN_NAME')), "https://" + str(os.getenv('DOMAIN_NAME'))]
+    ALLOWED_HOSTS = [str(os.getenv("DOMAIN_NAME"))]
+    CSRF_TRUSTED_ORIGINS = [
+        "http://" + str(os.getenv("DOMAIN_NAME")),
+        "https://" + str(os.getenv("DOMAIN_NAME")),
+    ]
 else:
     DEBUG = True
     ALLOWED_HOSTS = []
@@ -121,11 +124,14 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": str(os.getenv('POSTGRES_NAME')),
-        "USER": str(os.getenv('POSTGRES_USER')),
-        "PASSWORD": str(os.getenv('POSTGRES_PASSWORD')),
+        "NAME": str(os.getenv("POSTGRES_NAME")),
+        "USER": str(os.getenv("POSTGRES_USER")),
+        "PASSWORD": str(os.getenv("POSTGRES_PASSWORD")),
         "HOST": "127.0.0.1",
         "PORT": "5432",
+        "TEST": {
+            "NAME": "test_blog",
+        },
     }
 }
 
